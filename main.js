@@ -83,6 +83,37 @@
         return d.getDate();
       }
 
+      function calculatePersonalYear(dateStr) {
+        if (!dateStr) return 0;
+        const parts = dateStr.split("-");
+        if (parts.length !== 3) return 0;
+        const [, monthStr, dayStr] = parts;
+        const today = new Date();
+        const currentYear = today.getFullYear();
+        const m = reduceNumber(monthStr);
+        const d = reduceNumber(dayStr);
+        const y = reduceNumber(String(currentYear));
+        return reduceNumber(m + d + y);
+      }
+
+      function calculatePersonalMonth(dateStr) {
+        const py = calculatePersonalYear(dateStr);
+        if (!py) return 0;
+        const today = new Date();
+        const currentMonth = today.getMonth() + 1;
+        const cm = reduceNumber(String(currentMonth));
+        return reduceNumber(py + cm);
+      }
+
+      function calculatePersonalDay(dateStr) {
+        const pm = calculatePersonalMonth(dateStr);
+        if (!pm) return 0;
+        const today = new Date();
+        const currentDay = today.getDate();
+        const cd = reduceNumber(String(currentDay));
+        return reduceNumber(pm + cd);
+      }
+
       // Descriptions database
       const descriptions = {
         lifePath: {
@@ -333,6 +364,16 @@
         lines.push("  • Personality         : " + data.personality);
         lines.push("  • Birthday            : " + data.birthday);
         lines.push("");
+        const py = calculatePersonalYear(data.birthDate);
+        const pm = calculatePersonalMonth(data.birthDate);
+        const pd = calculatePersonalDay(data.birthDate);
+        lines.push("CURRENT CYCLES");
+        lines.push("--------------");
+        lines.push("");
+        lines.push("  • Personal Year  : " + (py || "—"));
+        lines.push("  • Personal Month : " + (pm || "—"));
+        lines.push("  • Personal Day   : " + (pd || "—"));
+        lines.push("");
         lines.push("============================================================");
         lines.push("DETAILED INTERPRETATIONS");
         lines.push("============================================================");
@@ -345,17 +386,84 @@
         lines.push("------------------------------------------------------------");
         lines.push(descriptions.expression[data.expression] || "");
         lines.push("");
+        lines.push("  Strengths");
+        lines.push(
+          "  • " +
+            (descriptions.expression[data.expression] ||
+              "Expression describes your natural talents and capacities.")
+        );
+        lines.push("  • Expression " + data.expression + " thrives with consistent, focused practice.");
+        lines.push("  Challenges");
+        lines.push("  • Over‑identifying with one talent and neglecting supporting skills.");
+        lines.push("  • Inconsistency between talent and daily practice.");
+        lines.push("  • Seeking external validation over inner alignment.");
+        lines.push("  Alignment Tips");
+        lines.push("  • Schedule weekly reps for Expression " + data.expression + " strengths.");
+        lines.push("  • Pair tasks with Life Path " + data.lifePath + " themes.");
+        lines.push("  • Let Soul Urge " + data.soul + " keep motivation authentic.");
+        lines.push("");
         lines.push("SOUL URGE (HEART'S DESIRE) " + data.soul);
         lines.push("------------------------------------------------------------");
         lines.push(descriptions.soul[data.soul] || "");
+        lines.push("");
+        lines.push("  Strengths");
+        lines.push(
+          "  • " +
+            (descriptions.soul[data.soul] || "Soul Urge reveals what truly nourishes you.")
+        );
+        lines.push("  • Clarifies authentic desires beneath roles and expectations.");
+        lines.push("  Challenges");
+        lines.push("  • Absorbing others’ emotions and forgetting your own needs.");
+        lines.push("  • Self‑silencing to keep peace.");
+        lines.push("  • Seeking fulfillment through approval.");
+        lines.push("  Alignment Tips");
+        lines.push(
+          "  • State needs plainly; let Personality " +
+            data.personality +
+            " support honest presentation."
+        );
+        lines.push("  • Choose environments that nourish Soul Urge " + data.soul + ".");
+        lines.push("  • Integrate with Life Path " + data.lifePath + " for aligned growth.");
         lines.push("");
         lines.push("PERSONALITY " + data.personality);
         lines.push("------------------------------------------------------------");
         lines.push(descriptions.personality[data.personality] || "");
         lines.push("");
+        lines.push("  Strengths");
+        lines.push(
+          "  • " +
+            (descriptions.personality[data.personality] ||
+              "Personality reflects how you are first experienced.")
+        );
+        lines.push("  • Helps build trust quickly when aligned with inner truth.");
+        lines.push("  Challenges");
+        lines.push("  • Masking inner needs behind a rigid persona.");
+        lines.push("  • Style–substance mismatch causing misreads.");
+        lines.push("  • Over‑curating image at the expense of authenticity.");
+        lines.push("  Alignment Tips");
+        lines.push("  • Let Soul Urge " + data.soul + " inform presentation choices.");
+        lines.push("  • Use small, honest disclosures to bridge perception and reality.");
+        lines.push("  • Adjust intentionally in contexts where first impressions matter.");
+        lines.push("");
         lines.push("BIRTHDAY " + data.birthday);
         lines.push("------------------------------------------------------------");
         lines.push(descriptions.birthday[data.birthday] || "");
+        lines.push("");
+        lines.push("  Strengths");
+        lines.push(
+          "  • " +
+            (descriptions.birthday[data.birthday] ||
+              "Birthday indicates a focused gift or style.")
+        );
+        lines.push("  • Offers a reliable talent to apply repeatedly.");
+        lines.push("  Challenges");
+        lines.push("  • Over‑relying on a single gift while neglecting broader development.");
+        lines.push("  • Applying the gift in mismatched contexts.");
+        lines.push("  • Infrequent practice causing dormancy.");
+        lines.push("  Alignment Tips");
+        lines.push("  • Plan weekly applications of your Birthday gift.");
+        lines.push("  • Pair with Expression " + data.expression + " to turn talent into output.");
+        lines.push("  • Align with Life Path " + data.lifePath + " for long‑term direction.");
         lines.push("");
 
         // Remedy & alignment section
@@ -432,6 +540,28 @@
         lines.push("------------------------------------------------------------");
         lines.push(physicalText);
         lines.push("");
+        lines.push("OVERVIEW SYNERGY");
+        lines.push("------------------------------------------------------------");
+        lines.push(
+          "  • Expression " +
+            data.expression +
+            " functions best when directed by Life Path " +
+            data.lifePath +
+            " themes."
+        );
+        lines.push(
+          "  • Soul Urge " +
+            data.soul +
+            " is supported when Personality " +
+            data.personality +
+            " presents your needs clearly."
+        );
+        lines.push(
+          "  • Birthday " +
+            data.birthday +
+            " acts as a focused talent to apply in both career and relationships."
+        );
+        lines.push("");
 
         lines.push("End of Report");
         return lines.join("\\r\\n");
@@ -481,6 +611,40 @@
 
         const remedySet =
           (remedies.lifePath && remedies.lifePath[results.lifePath]) || null;
+
+        const lifePathArticle = document.getElementById("tab-lifePath");
+        if (lifePathArticle) {
+          let extra = lifePathArticle.querySelector(".lp-extra");
+          if (!extra) {
+            extra = document.createElement("div");
+            extra.className = "lp-extra mt-4 space-y-3 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed";
+            lifePathArticle.appendChild(extra);
+          } else {
+            extra.innerHTML = "";
+          }
+          const lpIntegration = document.createElement("div");
+          lpIntegration.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Integration With Other Numbers</h3>" +
+            "<p class=\"mb-2\">Your Life Path " +
+            results.lifePath +
+            " sets the long arc of your lessons. Read it together with Expression " +
+            results.expression +
+            " (tools and talents), Soul Urge " +
+            results.soul +
+            " (inner motivation), and Personality " +
+            results.personality +
+            " (first impression) to understand both direction and capacity.</p>";
+          const lpPractice = document.createElement("div");
+          lpPractice.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Practical Guidance</h3>" +
+            "<p>" +
+            ((remedySet && remedySet.overall) ||
+              "Establish simple routines that align daily choices with your Life Path themes. Periodically review goals and habits to ensure they serve the trajectory indicated by your core number.") +
+            "</p>";
+          extra.appendChild(lpIntegration);
+          extra.appendChild(lpPractice);
+        }
+
         const overallRemedyEl = document.getElementById("remedy-overall-text");
         const loveEl = document.getElementById("love-overall-text");
         const careerEl = document.getElementById("career-overall-text");
@@ -567,43 +731,435 @@
             "<p>No specific remedy is available for this Life Path value with the current input.</p>";
         }
         if (loveEl) {
-          loveEl.textContent =
-            "In love and close relationships, your Life Path " +
-            results.lifePath +
-            " sets the tone for how you move through partnership, while your Soul Urge " +
+          if (remedySet && remedySet.love) {
+            loveEl.textContent = remedySet.love;
+          } else {
+            loveEl.textContent =
+              "In love and close relationships, your Life Path " +
+              results.lifePath +
+              " sets the tone for how you move through partnership, while your Soul Urge " +
+              results.soul +
+              " reveals what you privately need to feel emotionally safe and fulfilled. Reading both sections together in this report will give you a nuanced picture of how you give and receive love, what attracts you, and which dynamics tend to repeat for you.";
+          }
+        }
+        const loveArticle = document.getElementById("tab-love");
+        if (loveArticle) {
+          let extra = loveArticle.querySelector(".love-extra");
+          if (!extra) {
+            extra = document.createElement("div");
+            extra.className = "love-extra mt-4 space-y-3 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed";
+            loveArticle.appendChild(extra);
+          } else {
+            extra.innerHTML = "";
+          }
+          const loveComm = document.createElement("div");
+          loveComm.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-rose-300 tracking-wide uppercase mb-1\">Communication Styles</h3>" +
+            "<ul class=\"list-disc list-inside space-y-1\">" +
+            "<li>Let Soul Urge " +
             results.soul +
-            " reveals what you privately need to feel emotionally safe and fulfilled. Reading both sections together in this report will give you a nuanced picture of how you give and receive love, what attracts you, and which dynamics tend to repeat for you.";
+            " guide how you express needs and receive affection.</li>" +
+            "<li>Use Personality " +
+            results.personality +
+            " to set a welcoming first impression without masking deeper feelings.</li>" +
+            "<li>Match pace and expectations with Life Path " +
+            results.lifePath +
+            " to avoid mismatched timing in intimacy.</li>" +
+            "</ul>";
+          const loveBounds = document.createElement("div");
+          loveBounds.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Boundaries & Safety</h3>" +
+            "<p>Use Expression " +
+            results.expression +
+            " to define daily acts of care and clear agreements. Align routine closeness with the lessons of Life Path " +
+            results.lifePath +
+            " so connection feels secure and growth‑oriented.</p>";
+          const lovePractice = document.createElement("div");
+          lovePractice.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Shared Practices</h3>" +
+            "<p>" +
+            ((remedySet && remedySet.growth) ||
+              "Choose a simple weekly ritual—walks, check‑ins, creative time—that nourishes both partners and keeps the relationship aligned with your core numbers.") +
+            "</p>";
+          extra.appendChild(loveComm);
+          extra.appendChild(loveBounds);
+          extra.appendChild(lovePractice);
         }
         if (careerEl) {
-          careerEl.textContent =
-            "In career and vocation, your Life Path " +
-            results.lifePath +
-            " describes the kind of journey and lessons you meet through work, and your Expression " +
+          if (remedySet && remedySet.career) {
+            careerEl.textContent = remedySet.career;
+          } else {
+            careerEl.textContent =
+              "In career and vocation, your Life Path " +
+              results.lifePath +
+              " describes the kind of journey and lessons you meet through work, and your Expression " +
+              results.expression +
+              " outlines the concrete talents and capacities you naturally bring to any role. When you align daily tasks with your Expression and long-term direction with your Life Path, you create a trajectory where effort feels meaningful instead of purely transactional.";
+          }
+        }
+        const careerArticle = document.getElementById("tab-career");
+        if (careerArticle) {
+          let extra = careerArticle.querySelector(".career-extra");
+          if (!extra) {
+            extra = document.createElement("div");
+            extra.className = "career-extra mt-4 space-y-3 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed";
+            careerArticle.appendChild(extra);
+          } else {
+            extra.innerHTML = "";
+          }
+          const carThemes = document.createElement("div");
+          carThemes.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-sky-300 tracking-wide uppercase mb-1\">Work Themes</h3>" +
+            "<p>Let Expression " +
             results.expression +
-            " outlines the concrete talents and capacities you naturally bring to any role. When you align daily tasks with your Expression and long-term direction with your Life Path, you create a trajectory where effort feels meaningful instead of purely transactional.";
+            " shape daily tasks, while Life Path " +
+            results.lifePath +
+            " directs long‑term strategy and timing.</p>";
+          const carEnv = document.createElement("div");
+          carEnv.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Ideal Environments</h3>" +
+            "<ul class=\"list-disc list-inside space-y-1\">" +
+            "<li>Choose teams and tools that amplify Expression " +
+            results.expression +
+            " strengths.</li>" +
+            "<li>Align metrics and incentives with Life Path " +
+            results.lifePath +
+            " lessons to avoid burnout.</li>" +
+            "<li>Let Personality " +
+            results.personality +
+            " guide how you present ideas and build trust.</li>" +
+            "</ul>";
+          const carPlan = document.createElement("div");
+          carPlan.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Action Plan</h3>" +
+            "<ul class=\"list-disc list-inside space-y-1\">" +
+            "<li>Weekly skill reps tied to Expression " +
+            results.expression +
+            " for compounding mastery.</li>" +
+            "<li>Quarterly reviews aligned to Life Path " +
+            results.lifePath +
+            " themes to adjust direction.</li>" +
+            "<li>Relational check‑ins using Soul Urge " +
+            results.soul +
+            " to keep collaboration humane.</li>" +
+            "</ul>";
+          extra.appendChild(carThemes);
+          extra.appendChild(carEnv);
+          extra.appendChild(carPlan);
         }
         if (growthEl) {
-          growthEl.textContent =
-            "For long-term growth, your Life Path " +
+          if (remedySet && remedySet.growth) {
+            growthEl.textContent = remedySet.growth;
+          } else {
+            growthEl.textContent =
+              "For long-term growth, your Life Path " +
+              results.lifePath +
+              " shows the curriculum your soul signed up for, while your Soul Urge " +
+              results.soul +
+              " and Personality " +
+              results.personality +
+              " highlight your inner motivations and outer style. Using these together, you can track which experiences stretch you in a healthy way, which patterns you are ready to release, and which practices in this report will keep you evolving instead of repeating the same lessons.";
+          }
+        }
+        const growthArticle = document.getElementById("tab-growth");
+        if (growthArticle) {
+          let extra = growthArticle.querySelector(".growth-extra");
+          if (!extra) {
+            extra = document.createElement("div");
+            extra.className = "growth-extra mt-4 space-y-3 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed";
+            growthArticle.appendChild(extra);
+          } else {
+            extra.innerHTML = "";
+          }
+          const grPractices = document.createElement("div");
+          grPractices.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-amber-300 tracking-wide uppercase mb-1\">Core Practices</h3>" +
+            "<p>" +
+            ((remedySet && remedySet.growth) ||
+              "Pick two stable practices—one reflective and one embodied—and keep them consistent to regulate change and deepen insight.") +
+            "</p>";
+          const grCurriculum = document.createElement("div");
+          grCurriculum.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Curriculum Highlights</h3>" +
+            "<ul class=\"list-disc list-inside space-y-1\">" +
+            "<li>Life Path " +
             results.lifePath +
-            " shows the curriculum your soul signed up for, while your Soul Urge " +
+            " indicates core lessons and timing.</li>" +
+            "<li>Soul Urge " +
             results.soul +
-            " and Personality " +
+            " reveals nourishment required to stay resilient.</li>" +
+            "<li>Personality " +
             results.personality +
-            " highlight your inner motivations and outer style. Using these together, you can track which experiences stretch you in a healthy way, which patterns you are ready to release, and which practices in this report will keep you evolving instead of repeating the same lessons.";
+            " shows how to enter new communities and opportunities.</li>" +
+            "</ul>";
+          const grConsistency = document.createElement("div");
+          grConsistency.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Consistency Plan</h3>" +
+            "<p>Use Expression " +
+            results.expression +
+            " to design simple, repeatable routines. Review quarterly against Life Path " +
+            results.lifePath +
+            " themes to measure meaningful growth rather than activity alone.</p>";
+          extra.appendChild(grPractices);
+          extra.appendChild(grCurriculum);
+          extra.appendChild(grConsistency);
         }
         document.getElementById("expression-description").textContent =
           descriptions.expression[results.expression] ||
           "Expression information could not be determined for this input.";
+
+        const expressionArticle = document.getElementById("tab-expression");
+        if (expressionArticle) {
+          let extra = expressionArticle.querySelector(".expr-extra");
+          if (!extra) {
+            extra = document.createElement("div");
+            extra.className = "expr-extra mt-4 space-y-3 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed";
+            expressionArticle.appendChild(extra);
+          } else {
+            extra.innerHTML = "";
+          }
+          const exThemes = document.createElement("div");
+          exThemes.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-blue tracking-wide uppercase mb-1\">Key Themes</h3>" +
+            "<p>" +
+            (descriptions.expression[results.expression] || "") +
+            "</p>";
+          const exIntegration = document.createElement("div");
+          exIntegration.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Integration With Life Path</h3>" +
+            "<p>Align daily tasks with Life Path " +
+            results.lifePath +
+            " while using Expression " +
+            results.expression +
+            " as your toolkit. This pairing clarifies what work feels natural versus draining.</p>";
+          const exPractical = document.createElement("div");
+          exPractical.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Practical Steps</h3>" +
+            "<p>Create simple routines to practice your core talents regularly. Track which activities produce consistent energy and outcomes, and prioritize those.</p>";
+          const exChecklist = document.createElement("div");
+          exChecklist.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-blue tracking-wide uppercase mb-1\">Strengths</h3>" +
+            "<ul class=\"list-disc list-inside space-y-1\">" +
+            "<li>" +
+            (descriptions.expression[results.expression] || "Your Expression number describes natural talents and capacities.") +
+            "</li>" +
+            "<li>Expression " +
+            results.expression +
+            " highlights skills that feel intuitive and energizing when practiced consistently.</li>" +
+            "</ul>" +
+            "<h3 class=\"mt-3 text-[0.8rem] sm:text-sm font-semibold text-rose-300 tracking-wide uppercase mb-1\">Challenges</h3>" +
+            "<ul class=\"list-disc list-inside space-y-1\">" +
+            "<li>Over‑identifying with one talent and neglecting supporting skills.</li>" +
+            "<li>Inconsistency between talent and daily practice creates frustration.</li>" +
+            "<li>Letting external validation override inner alignment.</li>" +
+            "</ul>" +
+            "<h3 class=\"mt-3 text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Alignment Tips</h3>" +
+            "<ul class=\"list-disc list-inside space-y-1\">" +
+            "<li>Schedule weekly reps that directly exercise Expression " +
+            results.expression +
+            " strengths.</li>" +
+            "<li>Pair tasks with Life Path " +
+            results.lifePath +
+            " themes to maintain direction.</li>" +
+            "<li>Use Soul Urge " +
+            results.soul +
+            " to keep motivation authentic.</li>" +
+            "</ul>";
+          extra.appendChild(exThemes);
+          extra.appendChild(exIntegration);
+          extra.appendChild(exPractical);
+          extra.appendChild(exChecklist);
+        }
         document.getElementById("soul-description").textContent =
           descriptions.soul[results.soul] ||
           "Soul Urge information could not be determined for this input.";
+
+        const soulArticle = document.getElementById("tab-soul");
+        if (soulArticle) {
+          let extra = soulArticle.querySelector(".soul-extra");
+          if (!extra) {
+            extra = document.createElement("div");
+            extra.className = "soul-extra mt-4 space-y-3 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed";
+            soulArticle.appendChild(extra);
+          } else {
+            extra.innerHTML = "";
+          }
+          const soThemes = document.createElement("div");
+          soThemes.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Core Longings</h3>" +
+            "<p>" +
+            (descriptions.soul[results.soul] || "") +
+            "</p>";
+          const soIntegration = document.createElement("div");
+          soIntegration.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Integration With Personality</h3>" +
+            "<p>Notice where Personality " +
+            results.personality +
+            " aligns or differs from Soul Urge " +
+            results.soul +
+            ". Support environments that let your private needs be honored without forcing a public persona.</p>";
+          const soPractice = document.createElement("div");
+          soPractice.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-amber-300 tracking-wide uppercase mb-1\">Emotional Practices</h3>" +
+            "<p>Use journaling, gentle movement, or time in nature to keep your inner life clear. Share needs with trusted allies to prevent quiet overload.</p>";
+          const soChecklist = document.createElement("div");
+          soChecklist.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Strengths</h3>" +
+            "<ul class=\"list-disc list-inside space-y-1\">" +
+            "<li>" +
+            (descriptions.soul[results.soul] || "Your Soul Urge reveals what truly nourishes you.") +
+            "</li>" +
+            "<li>Soul Urge " +
+            results.soul +
+            " clarifies authentic desires beneath roles and expectations.</li>" +
+            "</ul>" +
+            "<h3 class=\"mt-3 text-[0.8rem] sm:text-sm font-semibold text-rose-300 tracking-wide uppercase mb-1\">Challenges</h3>" +
+            "<ul class=\"list-disc list-inside space-y-1\">" +
+            "<li>Absorbing others’ emotions and forgetting your own needs.</li>" +
+            "<li>Self‑silencing to keep peace or avoid discomfort.</li>" +
+            "<li>Seeking fulfillment through approval rather than inner alignment.</li>" +
+            "</ul>" +
+            "<h3 class=\"mt-3 text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Alignment Tips</h3>" +
+            "<ul class=\"list-disc list-inside space-y-1\">" +
+            "<li>State needs plainly; let Personality " +
+            results.personality +
+            " support honest presentation.</li>" +
+            "<li>Choose environments that regularly nourish Soul Urge " +
+            results.soul +
+            " (calm, beauty, truth).</li>" +
+            "<li>Integrate with Life Path " +
+            results.lifePath +
+            " to keep desire aligned with growth.</li>" +
+            "</ul>";
+          extra.appendChild(soThemes);
+          extra.appendChild(soIntegration);
+          extra.appendChild(soPractice);
+          extra.appendChild(soChecklist);
+        }
         document.getElementById("personality-description").textContent =
           descriptions.personality[results.personality] ||
           "Personality information could not be determined for this input.";
+
+        const personalityArticle = document.getElementById("tab-personality");
+        if (personalityArticle) {
+          let extra = personalityArticle.querySelector(".pers-extra");
+          if (!extra) {
+            extra = document.createElement("div");
+            extra.className = "pers-extra mt-4 space-y-3 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed";
+            personalityArticle.appendChild(extra);
+          } else {
+            extra.innerHTML = "";
+          }
+          const peThemes = document.createElement("div");
+          peThemes.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-fuchsia-300 tracking-wide uppercase mb-1\">Public Style</h3>" +
+            "<p>" +
+            (descriptions.personality[results.personality] || "") +
+            "</p>";
+          const peIntegration = document.createElement("div");
+          peIntegration.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Integration With Soul Urge</h3>" +
+            "<p>Balance how you appear with what you need. Let Personality " +
+            results.personality +
+            " serve Soul Urge " +
+            results.soul +
+            " so first impressions reflect real authenticity.</p>";
+          const pePractice = document.createElement("div");
+          pePractice.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-sky-300 tracking-wide uppercase mb-1\">Practical Adjustments</h3>" +
+            "<p>Choose attire, language, and settings that support your preferred way of being seen while staying true to your inner motivations.</p>";
+          const peChecklist = document.createElement("div");
+          peChecklist.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-fuchsia-300 tracking-wide uppercase mb-1\">Strengths</h3>" +
+            "<ul class=\"list-disc list-inside space-y-1\">" +
+            "<li>" +
+            (descriptions.personality[results.personality] || "Your Personality reflects how you are first experienced.") +
+            "</li>" +
+            "<li>Personality " +
+            results.personality +
+            " can make trust‑building faster when aligned with inner truth.</li>" +
+            "</ul>" +
+            "<h3 class=\"mt-3 text-[0.8rem] sm:text-sm font-semibold text-rose-300 tracking-wide uppercase mb-1\">Challenges</h3>" +
+            "<ul class=\"list-disc list-inside space-y-1\">" +
+            "<li>Masking inner needs behind a rigid persona.</li>" +
+            "<li>Being misread due to style–substance mismatch.</li>" +
+            "<li>Over‑curating image at the expense of authenticity.</li>" +
+            "</ul>" +
+            "<h3 class=\"mt-3 text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Alignment Tips</h3>" +
+            "<ul class=\"list-disc list-inside space-y-1\">" +
+            "<li>Let Soul Urge " +
+            results.soul +
+            " gently inform presentation choices.</li>" +
+            "<li>Use small, honest disclosures to bridge perception and reality.</li>" +
+            "<li>Revisit life contexts where first impressions matter and adjust intentionally.</li>" +
+            "</ul>";
+          extra.appendChild(peThemes);
+          extra.appendChild(peIntegration);
+          extra.appendChild(pePractice);
+          extra.appendChild(peChecklist);
+        }
         document.getElementById("birthday-description").textContent =
           descriptions.birthday[results.birthday] ||
           "Birthday information could not be determined for this input.";
+
+        const birthdayArticle = document.getElementById("tab-birthday");
+        if (birthdayArticle) {
+          let extra = birthdayArticle.querySelector(".bd-extra");
+          if (!extra) {
+            extra = document.createElement("div");
+            extra.className = "bd-extra mt-4 space-y-3 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed";
+            birthdayArticle.appendChild(extra);
+          } else {
+            extra.innerHTML = "";
+          }
+          const bdThemes = document.createElement("div");
+          bdThemes.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-sky-300 tracking-wide uppercase mb-1\">Gift Focus</h3>" +
+            "<p>" +
+            (descriptions.birthday[results.birthday] || "") +
+            "</p>";
+          const bdIntegration = document.createElement("div");
+          bdIntegration.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Integration With Expression</h3>" +
+            "<p>Use your Birthday gift to amplify Expression " +
+            results.expression +
+            ". Pair natural talents with practiced skills to create reliable outcomes.</p>";
+          const bdPractice = document.createElement("div");
+          bdPractice.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Application Ideas</h3>" +
+            "<p>Choose one weekly action that showcases your Birthday gift in real life—teaching, creating, organizing, or serving—depending on your number.</p>";
+          const bdChecklist = document.createElement("div");
+          bdChecklist.innerHTML =
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-sky-300 tracking-wide uppercase mb-1\">Strengths</h3>" +
+            "<ul class=\"list-disc list-inside space-y-1\">" +
+            "<li>" +
+            (descriptions.birthday[results.birthday] || "Your Birthday indicates a focused gift or style.") +
+            "</li>" +
+            "<li>Birthday " +
+            results.birthday +
+            " offers a reliable talent you can apply repeatedly.</li>" +
+            "</ul>" +
+            "<h3 class=\"mt-3 text-[0.8rem] sm:text-sm font-semibold text-rose-300 tracking-wide uppercase mb-1\">Challenges</h3>" +
+            "<ul class=\"list-disc list-inside space-y-1\">" +
+            "<li>Over‑relying on a single gift and neglecting broader skill development.</li>" +
+            "<li>Applying the gift in mismatched contexts that drain energy.</li>" +
+            "<li>Infrequent practice causing the gift to feel dormant.</li>" +
+            "</ul>" +
+            "<h3 class=\"mt-3 text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Alignment Tips</h3>" +
+            "<ul class=\"list-disc list-inside space-y-1\">" +
+            "<li>Plan weekly applications that leverage your Birthday gift.</li>" +
+            "<li>Pair with Expression " +
+            results.expression +
+            " to turn talent into dependable output.</li>" +
+            "<li>Align with Life Path " +
+            results.lifePath +
+            " so the gift serves long‑term direction.</li>" +
+            "</ul>";
+          extra.appendChild(bdThemes);
+          extra.appendChild(bdIntegration);
+          extra.appendChild(bdPractice);
+          extra.appendChild(bdChecklist);
+        }
 
         // Overview narrative
         const overview = document.getElementById("overview-content");
@@ -613,6 +1169,41 @@
         paraIntro.textContent =
           "This report weaves together your five primary numerology numbers to give a cohesive picture of your character, motivations, and life themes.";
         overview.appendChild(paraIntro);
+
+        const cyclesWrap = document.createElement("div");
+        cyclesWrap.className = "mt-3 border border-lux-border/60 rounded-xl bg-lux-bg/40 p-3";
+        const cyTitle = document.createElement("h3");
+        cyTitle.className = "text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1";
+        cyTitle.textContent = "Current Cycles";
+        const cyGrid = document.createElement("div");
+        cyGrid.className = "grid sm:grid-cols-3 gap-3 text-sm sm:text-[0.95rem]";
+        const pyNum = calculatePersonalYear(results.birthDate);
+        const pmNum = calculatePersonalMonth(results.birthDate);
+        const pdNum = calculatePersonalDay(results.birthDate);
+        const py = document.createElement("div");
+        py.innerHTML =
+          "<p class=\"text-slate-400 text-[0.7rem] uppercase tracking-[0.16em]\">Personal Year</p>" +
+          "<p class=\"text-base font-semibold text-lux-gold-soft\">" +
+          (pyNum || "—") +
+          "</p>";
+        const pm = document.createElement("div");
+        pm.innerHTML =
+          "<p class=\"text-slate-400 text-[0.7rem] uppercase tracking-[0.16em]\">Personal Month</p>" +
+          "<p class=\"text-base font-semibold text-lux-blue\">" +
+          (pmNum || "—") +
+          "</p>";
+        const pd = document.createElement("div");
+        pd.innerHTML =
+          "<p class=\"text-slate-400 text-[0.7rem] uppercase tracking-[0.16em]\">Personal Day</p>" +
+          "<p class=\"text-base font-semibold text-emerald-300\">" +
+          (pdNum || "—") +
+          "</p>";
+        cyGrid.appendChild(py);
+        cyGrid.appendChild(pm);
+        cyGrid.appendChild(pd);
+        cyclesWrap.appendChild(cyTitle);
+        cyclesWrap.appendChild(cyGrid);
+        overview.appendChild(cyclesWrap);
 
         const list = document.createElement("ul");
         list.className = "mt-3 space-y-1 list-disc list-inside text-slate-200 text-sm sm:text-[0.95rem]";
@@ -648,6 +1239,27 @@
         paraClose.textContent =
           "No single number defines you; it is the interaction between these vibrations, plus your free will, that creates your lived reality. Use this information as a mirror, not a limitation, and return to it whenever you seek clarity on your path.";
         overview.appendChild(paraClose);
+
+        const synergy = document.createElement("div");
+        synergy.className = "mt-4 space-y-2";
+        synergy.innerHTML =
+          "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Synergy Highlights</h3>" +
+          "<ul class=\"list-disc list-inside space-y-1\">" +
+          "<li>Expression " +
+          results.expression +
+          " functions best when directed by Life Path " +
+          results.lifePath +
+          " themes.</li>" +
+          "<li>Soul Urge " +
+          results.soul +
+          " is supported when Personality " +
+          results.personality +
+          " presents your needs clearly.</li>" +
+          "<li>Birthday " +
+          results.birthday +
+          " acts as a focused talent you can apply to both career and relationships for tangible progress.</li>" +
+          "</ul>";
+        overview.appendChild(synergy);
       }
 
       function handleCalculation(fullName, birthDate) {
@@ -679,6 +1291,7 @@
         const form = document.getElementById("numerology-form");
         const loadLastBtn = document.getElementById("loadLastBtn");
         const downloadBtn = document.getElementById("downloadReport");
+        const downloadJsonBtn = document.getElementById("downloadJson");
 
         const tabs = document.querySelectorAll(".tab-button");
         const tabContents = {
@@ -757,6 +1370,27 @@
           const safeName = (payload.fullName || "numerology-report").replace(/[^a-z0-9]+/gi, "-");
           a.href = url;
           a.download = safeName.toLowerCase() + "-numerology-report.txt";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        });
+
+        downloadJsonBtn.addEventListener("click", () => {
+          const data = loadFromLocal();
+          const fullName = document.getElementById("fullName").value.trim();
+          const birthDate = document.getElementById("birthDate").value;
+          let payload = data;
+          if (!payload && fullName && birthDate) {
+            payload = handleCalculation(fullName, birthDate);
+          }
+          if (!payload) return;
+          const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json;charset=utf-8" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          const safeName = (payload.fullName || "numerology-report").replace(/[^a-z0-9]+/gi, "-");
+          a.href = url;
+          a.download = safeName.toLowerCase() + "-numerology.json";
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
