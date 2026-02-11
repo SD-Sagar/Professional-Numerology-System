@@ -403,6 +403,107 @@
         22: ["Build large useful projects", "Translate vision into blueprints", "Steward teams to completion"],
         33: ["Teach and heal consistently", "Create gentle learning forums", "Serve while staying resourced"],
       };
+      const LOVE_INTRO = {
+        1: "In love, 1 seeks mutual respect and space to lead at times. Partners who value initiative and honesty help you thrive.",
+        2: "In love, 2 flourishes with gentle partnership, empathy, and steady closeness. Safety comes from mutual listening.",
+        3: "In love, 3 brings play, color, and lively expression. Connection deepens through shared creativity and lightness with sincerity.",
+        4: "In love, 4 prefers stability, reliability, and clear commitments. Trust grows with routines and practical care.",
+        5: "In love, 5 thrives with freedom, variety, and exploration. Healthy boundaries keep adventure from becoming chaos.",
+        6: "In love, 6 invests in home, beauty, and responsibility. Harmony comes from balanced give‑and‑take.",
+        7: "In love, 7 needs privacy, depth, and intellectual intimacy. Gentle pacing honors your reflective nature.",
+        8: "In love, 8 values respect, integrity, and aligned ambition. Power dynamics work best when shared fairly.",
+        9: "In love, 9 offers compassion and meaning. Emotional honesty and purpose keep bonds strong.",
+        11: "In love, 11 seeks spiritual resonance and sensitivity. Calm spaces and inspired conversations nurture connection.",
+        22: "In love, 22 commits to building something lasting. Practical plans and shared vision deepen partnership.",
+        33: "In love, 33 cares profoundly with wise limits. Boundaries protect the heart so compassion remains sustainable.",
+      };
+      const CAREER_INTRO = {
+        1: "Career favors leadership, entrepreneurship, and decisive initiatives. Owning outcomes builds confidence.",
+        2: "Career excels in support, mediation, and coordination. You stabilize teams and relationships.",
+        3: "Career suits creative communication, design, and speaking. Regular output compounds skill and visibility.",
+        4: "Career rewards operations, process, and project management. Systems thinking creates reliability.",
+        5: "Career thrives in outreach, marketing, travel, and change. Adaptability becomes a superpower.",
+        6: "Career shines in mentoring, design, service, and hospitality. Care and elegance earn trust.",
+        7: "Career fits research, analysis, academia, and spiritual inquiry. Depth produces clarity.",
+        8: "Career aligns with management, finance, and executive roles. Integrity with metrics scales impact.",
+        9: "Career flows through arts, counseling, nonprofit, and global service. Meaning drives excellence.",
+        11: "Career uplifts via creative/spiritual guidance, design, and education. Inspire with practical insight.",
+        22: "Career builds large, useful systems. Blueprint thinking turns vision into delivery.",
+        33: "Career serves through teaching, healing, and guidance. Gentle structure sustains care.",
+      };
+      const GROWTH_INTRO = {
+        1: "Growth comes from patience, collaboration, and channeling initiative wisely. Strategic steps beat forcing outcomes.",
+        2: "Growth comes from boundaries and self‑advocacy. Honoring your needs strengthens harmony.",
+        3: "Growth comes from disciplined practice that steadies expression. Routines turn talent into mastery.",
+        4: "Growth comes from flexibility, rest, and periodic recalibration. Structure works best when humane.",
+        5: "Growth comes from focus and consistency. Choosing one path at a time reduces noise.",
+        6: "Growth comes from balancing care for others with self‑care. Beauty and rest make service sustainable.",
+        7: "Growth comes from embodiment and community. Share insights and move the body to ground truth.",
+        8: "Growth comes from ethical alignment, generosity, and restraint. Power blossoms when used fairly.",
+        9: "Growth comes from release, forgiveness, and completion. Rituals help transform emotion into wisdom.",
+        11: "Growth comes from grounding intuition and trusting gentle timing. Quiet practice keeps clarity high.",
+        22: "Growth comes from breaking large goals into milestones. Blend vision with practical delivery.",
+        33: "Growth comes from self‑compassion and boundaries. Rest first, then serve sustainably.",
+      };
+
+      function buildLoveIntro(results) {
+        const lp = results.lifePath;
+        const base = LOVE_INTRO[lp] || "In love, honor your core nature while choosing environments that support emotional safety and authenticity.";
+        const soul = results.soul;
+        const pers = results.personality;
+        const py = calculatePersonalYear(results.birthDate);
+        const pm = calculatePersonalMonth(results.birthDate);
+        return (
+          base +
+          " Let Soul Urge " +
+          soul +
+          " guide how needs are expressed, and Personality " +
+          pers +
+          " set welcoming signals. This Personal Year " +
+          (py || "—") +
+          " with Month " +
+          (pm || "—") +
+          " suggests pacing intimacy to match energy and timing."
+        );
+      }
+
+      function buildCareerIntro(results) {
+        const lp = results.lifePath;
+        const base = CAREER_INTRO[lp] || "In career, align daily tasks with your strengths and long‑term direction with your core lessons.";
+        const expr = results.expression;
+        const py = calculatePersonalYear(results.birthDate);
+        const pm = calculatePersonalMonth(results.birthDate);
+        return (
+          base +
+          " Use Expression " +
+          expr +
+          " to choose weekly skill reps, and review quarterly against Life Path " +
+          lp +
+          " themes. Personal Year " +
+          (py || "—") +
+          " and Month " +
+          (pm || "—") +
+          " help set scope and sprint length."
+        );
+      }
+
+      function buildGrowthIntro(results) {
+        const lp = results.lifePath;
+        const base = GROWTH_INTRO[lp] || "For growth, pair reflection with embodied practice and adjust at humane pace.";
+        const soul = results.soul;
+        const pers = results.personality;
+        const pd = calculatePersonalDay(results.birthDate);
+        return (
+          base +
+          " Let Soul Urge " +
+          soul +
+          " pick nourishing practices, and Personality " +
+          pers +
+          " guide how you enter new contexts. Personal Day " +
+          (pd || "—") +
+          " is ideal for small, grounded actions."
+        );
+      }
       function buildReportText(data) {
         const lines = [];
         lines.push("UNIVERSAL NUMEROLOGY ENGINE REPORT");
@@ -769,12 +870,7 @@
             "<p>No specific remedy is available for this Life Path value with the current input.</p>";
         }
         if (loveEl) {
-          loveEl.textContent =
-            "In love and close relationships, your Life Path " +
-            results.lifePath +
-            " sets the tone for how you move through partnership, while your Soul Urge " +
-            results.soul +
-            " reveals what you privately need to feel emotionally safe and fulfilled. Reading both sections together in this report will give you a nuanced picture of how you give and receive love, what attracts you, and which dynamics tend to repeat for you.";
+          loveEl.textContent = buildLoveIntro(results);
         }
         const loveArticle = document.getElementById("tab-love");
         if (loveArticle) {
@@ -817,12 +913,7 @@
           extra.appendChild(lovePractice);
         }
         if (careerEl) {
-          careerEl.textContent =
-            "In career and vocation, your Life Path " +
-            results.lifePath +
-            " describes the kind of journey and lessons you meet through work, and your Expression " +
-            results.expression +
-            " outlines the concrete talents and capacities you naturally bring to any role. When you align daily tasks with your Expression and long-term direction with your Life Path, you create a trajectory where effort feels meaningful instead of purely transactional.";
+          careerEl.textContent = buildCareerIntro(results);
         }
         const careerArticle = document.getElementById("tab-career");
         if (careerArticle) {
@@ -875,14 +966,7 @@
           extra.appendChild(carPlan);
         }
         if (growthEl) {
-          growthEl.textContent =
-            "For long-term growth, your Life Path " +
-            results.lifePath +
-            " shows the curriculum your soul signed up for, while your Soul Urge " +
-            results.soul +
-            " and Personality " +
-            results.personality +
-            " highlight your inner motivations and outer style. Using these together, you can track which experiences stretch you in a healthy way, which patterns you are ready to release, and which practices in this report will keep you evolving instead of repeating the same lessons.";
+          growthEl.textContent = buildGrowthIntro(results);
         }
         const growthArticle = document.getElementById("tab-growth");
         if (growthArticle) {
