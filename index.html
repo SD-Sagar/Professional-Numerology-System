@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Universal Numerology Engine</title>
+    <!-- Tailwind via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["system-ui", "ui-sans-serif", "Inter", "Segoe UI", "sans-serif"],
+            },
+            colors: {
+              "lux-bg": "#050711",
+              "lux-bg-alt": "#090b16",
+              "lux-gold": "#facc6b",
+              "lux-gold-soft": "#fbbf24",
+              "lux-blue": "#38bdf8",
+              "lux-border": "rgba(148, 163, 184, 0.35)",
+            },
+            boxShadow: {
+              "inner-glow": "0 0 40px rgba(250, 204, 21, 0.25)",
+              "soft-panel": "0 24px 80px rgba(15, 23, 42, 0.95)",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="min-h-screen text-slate-100 antialiased dark">
+    <div class="min-h-screen flex items-center justify-center px-4 py-10">
+      <main
+        class="w-full max-w-5xl glass-panel bg-lux-bg/80 border border-lux-border rounded-3xl shadow-soft-panel px-6 py-7 sm:px-10 sm:py-10 relative overflow-hidden"
+      >
+        <!-- Accent halos -->
+        <div
+          class="pointer-events-none absolute -top-28 -right-10 h-56 w-56 rounded-full bg-lux-blue/25 blur-3xl"
+        ></div>
+        <div
+          class="pointer-events-none absolute -bottom-32 -left-20 h-64 w-64 rounded-full bg-lux-gold/15 blur-3xl"
+        ></div>
+
+        <!-- Header -->
+        <header class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+          <div>
+            <p class="uppercase tracking-[0.3em] text-xs text-slate-400 mb-3">
+              Precision · Insight · Alignment
+            </p>
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-50 tracking-tight">
+              Universal <span class="text-lux-gold">Numerology Engine</span>
+            </h1>
+            <p class="mt-3 text-sm sm:text-base text-slate-300 max-w-xl">
+              A professional-grade Pythagorean system delivering in-depth insight into your
+              core numerological blueprint, optimized for clarity on any device.
+            </p>
+          </div>
+          <div
+            class="shrink-0 px-4 py-2.5 rounded-full border border-lux-border/80 bg-lux-bg-alt/80 shadow-inner shadow-black/60 flex items-center gap-2 text-xs sm:text-sm text-slate-300"
+          >
+            <span
+              class="inline-flex h-2 w-2 rounded-full bg-lux-gold-soft shadow-inner shadow-lux-gold/70"
+            ></span>
+            <span class="font-medium tracking-wide">Dark Mode · Neo‑Luxury</span>
+          </div>
+        </header>
+
+        <!-- Form -->
+        <section class="relative z-10 mt-7 sm:mt-9 grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-8">
+          <form id="numerology-form" class="space-y-6">
+            <div class="floating-label relative">
+              <input
+                id="fullName"
+                type="text"
+                required
+                autocomplete="name"
+                placeholder=" "
+                class="peer w-full rounded-2xl border border-lux-border/80 bg-lux-bg-alt/80 px-4 pt-5 pb-2.5 text-sm sm:text-base text-slate-50 placeholder-transparent shadow-inner shadow-black/60 focus:outline-none focus:ring-2 focus:ring-lux-gold-soft/70 focus:border-lux-gold-soft transition"
+              />
+              <label
+                for="fullName"
+                class="absolute left-4 top-3 text-xs sm:text-sm text-slate-400 pointer-events-none origin-left transition-transform duration-200 ease-out"
+              >
+                Full Name (as it appears on official documents)
+              </label>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="floating-label relative">
+                <input
+                  id="birthDate"
+                  type="date"
+                  required
+                  placeholder=" "
+                  class="peer w-full rounded-2xl border border-lux-border/80 bg-lux-bg-alt/80 px-4 pt-5 pb-2.5 text-sm sm:text-base text-slate-50 [color-scheme:dark] placeholder-transparent shadow-inner shadow-black/60 focus:outline-none focus:ring-2 focus:ring-lux-blue/70 focus:border-lux-blue transition"
+                />
+                <label
+                  for="birthDate"
+                  class="absolute left-4 top-3 text-xs sm:text-sm text-slate-400 pointer-events-none origin-left transition-transform duration-200 ease-out"
+                >
+                  Date of Birth
+                </label>
+              </div>
+
+              <div class="flex flex-col gap-3 sm:items-end justify-between">
+                <button
+                  type="submit"
+                  class="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-lux-gold-soft to-amber-400 px-4 py-3 text-sm sm:text-base font-semibold text-slate-950 shadow-lg shadow-amber-500/40 hover:shadow-amber-400/60 hover:-translate-y-[1px] active:translate-y-0 active:shadow-md transition"
+                >
+                  <span>Calculate Blueprint</span>
+                  <span class="text-lg" aria-hidden="true">⮞</span>
+                </button>
+                <button
+                  type="button"
+                  id="loadLastBtn"
+                  class="inline-flex items-center gap-2 text-[0.78rem] sm:text-xs text-slate-400 hover:text-lux-blue transition"
+                >
+                  <span class="h-1.5 w-1.5 rounded-full bg-slate-500/80"></span>
+                  Load last saved profile
+                </button>
+              </div>
+            </div>
+
+            <p class="text-[0.7rem] sm:text-xs text-slate-400 leading-relaxed">
+              This engine uses the classic Pythagorean map with Master Numbers 11, 22, and 33
+              preserved. Vowels are treated as A, E, I, O, U for clarity; Y is consistently
+              handled as a consonant in this professional-standard implementation.
+            </p>
+          </form>
+
+          <!-- Key Numbers summary -->
+          <aside
+            class="border border-lux-border/70 rounded-2xl bg-lux-bg-alt/90 shadow-inner shadow-black/70 px-4 py-4 sm:px-5 sm:py-5 flex flex-col gap-3"
+          >
+            <h2 class="text-xs sm:text-sm font-semibold tracking-wide text-slate-200 flex items-center gap-2">
+              <span
+                class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-lux-gold-soft/10 border border-lux-gold-soft/50 text-[0.7rem] text-lux-gold-soft"
+              >
+                Ω
+              </span>
+              Core Numbers Snapshot
+            </h2>
+            <div class="grid grid-cols-2 gap-3 text-[0.75rem] sm:text-xs text-slate-300">
+              <div class="space-y-1">
+                <p class="text-slate-400 text-[0.7rem] uppercase tracking-[0.16em]">Life Path</p>
+                <p id="summary-lifePath" class="text-lg sm:text-xl font-semibold text-lux-gold-soft">
+                  —
+                </p>
+              </div>
+              <div class="space-y-1">
+                <p class="text-slate-400 text-[0.7rem] uppercase tracking-[0.16em]">Expression</p>
+                <p id="summary-expression" class="text-lg sm:text-xl font-semibold text-lux-blue">
+                  —
+                </p>
+              </div>
+              <div class="space-y-1">
+                <p class="text-slate-400 text-[0.7rem] uppercase tracking-[0.16em]">Soul Urge</p>
+                <p id="summary-soul" class="text-lg sm:text-xl font-semibold text-emerald-300">
+                  —
+                </p>
+              </div>
+              <div class="space-y-1">
+                <p class="text-slate-400 text-[0.7rem] uppercase tracking-[0.16em]">Personality</p>
+                <p id="summary-personality" class="text-lg sm:text-xl font-semibold text-fuchsia-300">
+                  —
+                </p>
+              </div>
+              <div class="space-y-1 col-span-2">
+                <p class="text-slate-400 text-[0.7rem] uppercase tracking-[0.16em]">Birthday</p>
+                <p id="summary-birthday" class="text-lg sm:text-xl font-semibold text-sky-300">
+                  —
+                </p>
+              </div>
+            </div>
+            <div class="mt-1 flex flex-wrap gap-2 text-[0.7rem] text-slate-400">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-900/60">
+                <span class="h-1.5 w-1.5 rounded-full bg-lux-gold-soft"></span>
+                Pythagorean · Master Numbers
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-900/60">
+                <span class="h-1.5 w-1.5 rounded-full bg-lux-blue"></span>
+                Local persistence
+              </span>
+            </div>
+          </aside>
+        </section>
+
+        <!-- Tabs -->
+        <section class="relative z-10 mt-8 sm:mt-10">
+          <div
+            class="inline-flex flex-wrap gap-2 rounded-2xl bg-black/20 border border-lux-border/60 px-2 py-2 text-[0.78rem] sm:text-xs"
+          >
+            <button
+              type="button"
+              data-tab="lifePath"
+              class="tab-button inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-slate-300 hover:text-lux-gold hover:bg-lux-bg-alt/70 transition"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-lux-gold-soft"></span>
+              Life Path
+            </button>
+            <button
+              type="button"
+              data-tab="expression"
+              class="tab-button inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-slate-300 hover:text-lux-gold hover:bg-lux-bg-alt/70 transition"
+            >
+              Expression
+            </button>
+            <button
+              type="button"
+              data-tab="soul"
+              class="tab-button inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-slate-300 hover:text-lux-gold hover:bg-lux-bg-alt/70 transition"
+            >
+              Soul Urge
+            </button>
+            <button
+              type="button"
+              data-tab="personality"
+              class="tab-button inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-slate-300 hover:text-lux-gold hover:bg-lux-bg-alt/70 transition"
+            >
+              Personality
+            </button>
+            <button
+              type="button"
+              data-tab="birthday"
+              class="tab-button inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-slate-300 hover:text-lux-gold hover:bg-lux-bg-alt/70 transition"
+            >
+              Birthday
+            </button>
+            <button
+              type="button"
+              data-tab="overview"
+              class="tab-button inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-slate-300 hover:text-lux-gold hover:bg-lux-bg-alt/70 transition"
+            >
+              Complete Report
+            </button>
+            <button
+              type="button"
+              data-tab="remedy"
+              class="tab-button inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-slate-300 hover:text-emerald-300 hover:bg-lux-bg-alt/70 transition"
+            >
+              Remedy
+            </button>
+            <button
+              type="button"
+              data-tab="love"
+              class="tab-button inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-slate-300 hover:text-rose-300 hover:bg-lux-bg-alt/70 transition"
+            >
+              Love
+            </button>
+            <button
+              type="button"
+              data-tab="career"
+              class="tab-button inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-slate-300 hover:text-sky-300 hover:bg-lux-bg-alt/70 transition"
+            >
+              Career
+            </button>
+            <button
+              type="button"
+              data-tab="growth"
+              class="tab-button inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-slate-300 hover:text-amber-300 hover:bg-lux-bg-alt/70 transition"
+            >
+              Growth
+            </button>
+          </div>
+
+          <div class="mt-5 space-y-4">
+            <!-- Life Path -->
+            <article
+              id="tab-lifePath"
+              class="tab-content active border border-lux-border/70 rounded-2xl bg-lux-bg-alt/90 px-4 py-4 sm:px-5 sm:py-5"
+            >
+              <header class="flex items-center justify-between gap-3">
+                <div>
+                  <h2 class="text-sm sm:text-base font-semibold text-lux-gold-soft">
+                    Life Path Number
+                  </h2>
+                  <p class="text-[0.75rem] sm:text-xs text-slate-400">
+                    Core trajectory of your life, derived from your full date of birth.
+                  </p>
+                </div>
+                <p
+                  id="lifePath-number"
+                  class="text-xl sm:text-2xl font-semibold text-lux-gold-soft px-3 py-1 rounded-xl bg-lux-bg/80 border border-lux-gold-soft/50 shadow-inner-glow"
+                >
+                  —
+                </p>
+              </header>
+              <p id="lifePath-description" class="mt-4 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed">
+                Enter your details above to reveal your numerological Life Path. Use the dedicated Remedy, Love, Career, and Growth tabs to explore tailored guidance for this number in each area of life.
+              </p>
+            </article>
+
+            <!-- Expression -->
+            <article
+              id="tab-expression"
+              class="tab-content border border-lux-border/70 rounded-2xl bg-lux-bg-alt/90 px-4 py-4 sm:px-5 sm:py-5"
+            >
+              <header class="flex items-center justify-between gap-3">
+                <div>
+                  <h2 class="text-sm sm:text-base font-semibold text-lux-blue">
+                    Expression (Destiny) Number
+                  </h2>
+                  <p class="text-[0.75rem] sm:text-xs text-slate-400">
+                    Your talents, tools, and outward potential encoded in your full birth name.
+                  </p>
+                </div>
+                <p
+                  id="expression-number"
+                  class="text-xl sm:text-2xl font-semibold text-lux-blue px-3 py-1 rounded-xl bg-lux-bg/80 border border-lux-blue/60"
+                >
+                  —
+                </p>
+              </header>
+              <p
+                id="expression-description"
+                class="mt-4 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed"
+              >
+                This section decodes how your full birth name translates into talents, skills, and outward potential. Once calculated, read it together with your Life Path to see not only where you are heading, but also which tools you are carrying for the journey.
+              </p>
+            </article>
+
+            <!-- Soul Urge -->
+            <article
+              id="tab-soul"
+              class="tab-content border border-lux-border/70 rounded-2xl bg-lux-bg-alt/90 px-4 py-4 sm:px-5 sm:py-5"
+            >
+              <header class="flex items-center justify-between gap-3">
+                <div>
+                  <h2 class="text-sm sm:text-base font-semibold text-emerald-300">
+                    Soul Urge (Heart’s Desire) Number
+                  </h2>
+                  <p class="text-[0.75rem] sm:text-xs text-slate-400">
+                    Your inner motivations, secret longings, and what truly fulfills you.
+                  </p>
+                </div>
+                <p
+                  id="soul-number"
+                  class="text-xl sm:text-2xl font-semibold text-emerald-300 px-3 py-1 rounded-xl bg-lux-bg/80 border border-emerald-300/60"
+                >
+                  —
+                </p>
+              </header>
+              <p id="soul-description" class="mt-4 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed">
+                This section interprets the vibration of the vowels in your name, revealing what your heart privately longs for beyond roles, duties, or expectations. Once calculated, use it to understand what truly nourishes you emotionally, even if you have never put those needs into words before.
+              </p>
+            </article>
+
+            <!-- Personality -->
+            <article
+              id="tab-personality"
+              class="tab-content border border-lux-border/70 rounded-2xl bg-lux-bg-alt/90 px-4 py-4 sm:px-5 sm:py-5"
+            >
+              <header class="flex items-center justify-between gap-3">
+                <div>
+                  <h2 class="text-sm sm:text-base font-semibold text-fuchsia-300">
+                    Personality Number
+                  </h2>
+                  <p class="text-[0.75rem] sm:text-xs text-slate-400">
+                    How others first experience you and the filters you show the world.
+                  </p>
+                </div>
+                <p
+                  id="personality-number"
+                  class="text-xl sm:text-2xl font-semibold text-fuchsia-300 px-3 py-1 rounded-xl bg-lux-bg/80 border border-fuchsia-300/60"
+                >
+                  —
+                </p>
+              </header>
+              <p
+                id="personality-description"
+                class="mt-4 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed"
+              >
+                Your Personality number is shaped by the consonants in your full name and describes the "front door" of your energy—how you tend to appear at first glance. Once calculated, compare it with your Soul Urge to notice where your outer style aligns with, or differs from, your private inner world.
+              </p>
+            </article>
+
+            <!-- Birthday -->
+            <article
+              id="tab-birthday"
+              class="tab-content border border-lux-border/70 rounded-2xl bg-lux-bg-alt/90 px-4 py-4 sm:px-5 sm:py-5"
+            >
+              <header class="flex items-center justify-between gap-3">
+                <div>
+                  <h2 class="text-sm sm:text-base font-semibold text-sky-300">
+                    Birthday Number
+                  </h2>
+                  <p class="text-[0.75rem] sm:text-xs text-slate-400">
+                    A focused talent or gift indicated by the calendar day you were born.
+                  </p>
+                </div>
+                <p
+                  id="birthday-number"
+                  class="text-xl sm:text-2xl font-semibold text-sky-300 px-3 py-1 rounded-xl bg-lux-bg/80 border border-sky-300/60"
+                >
+                  —
+                </p>
+              </header>
+              <p
+                id="birthday-description"
+                class="mt-4 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed"
+              >
+                Once calculated, this number reveals a key facet of your personal talent and
+                natural style.
+              </p>
+            </article>
+
+            <!-- Overview -->
+            <article
+              id="tab-overview"
+              class="tab-content border border-lux-border/70 rounded-2xl bg-lux-bg-alt/90 px-4 py-4 sm:px-5 sm:py-5"
+            >
+              <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div>
+                  <h2 class="text-sm sm:text-base font-semibold text-lux-gold">
+                    Complete Numerology Report
+                  </h2>
+                  <p class="text-[0.75rem] sm:text-xs text-slate-400">
+                    A consolidated view of your five primary core numbers.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  id="downloadReport"
+                  class="inline-flex items-center gap-2 rounded-xl border border-lux-gold-soft/70 bg-gradient-to-r from-lux-bg to-lux-bg-alt px-3 py-1.5 text-[0.78rem] sm:text-xs text-lux-gold-soft hover:bg-lux-bg/60 transition"
+                >
+                  <span class="text-base" aria-hidden="true">⬇</span>
+                  Download Report
+                </button>
+              </header>
+              <div
+                id="overview-content"
+                class="mt-4 space-y-3 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed"
+              >
+                <p>
+                  After you calculate your blueprint, this section will assemble all core
+                  numbers into a cohesive interpretive narrative that can be exported as a
+                  report.
+                </p>
+              </div>
+            </article>
+
+            <!-- Remedy -->
+            <article
+              id="tab-remedy"
+              class="tab-content border border-lux-border/70 rounded-2xl bg-lux-bg-alt/90 px-4 py-4 sm:px-5 sm:py-5"
+            >
+              <header class="flex items-center justify-between gap-3">
+                <div>
+                  <h2 class="text-sm sm:text-base font-semibold text-emerald-300">
+                    Core Remedy & Alignment
+                  </h2>
+                  <p class="text-[0.75rem] sm:text-xs text-slate-400">
+                    Practical guidance to harmonize your primary Life Path vibration.
+                  </p>
+                </div>
+                <p
+                  id="remedy-lifePath-number"
+                  class="text-xl sm:text-2xl font-semibold text-emerald-300 px-3 py-1 rounded-xl bg-lux-bg/80 border border-emerald-300/60"
+                >
+                  —
+                </p>
+              </header>
+              <p
+                id="remedy-overall-text"
+                class="mt-4 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed"
+              >
+                Once your Life Path has been calculated, this section will describe how to keep its
+                energy in healthy balance across everyday life.
+              </p>
+            </article>
+
+            <!-- Love -->
+            <article
+              id="tab-love"
+              class="tab-content border border-lux-border/70 rounded-2xl bg-lux-bg-alt/90 px-4 py-4 sm:px-5 sm:py-5"
+            >
+              <header class="flex items-center justify-between gap-3">
+                <div>
+                  <h2 class="text-sm sm:text-base font-semibold text-rose-300">
+                    Love & Relationship Profile
+                  </h2>
+                  <p class="text-[0.75rem] sm:text-xs text-slate-400">
+                    How your Life Path number tends to behave in love, intimacy, and partnership.
+                  </p>
+                </div>
+                <p
+                  id="love-lifePath-number"
+                  class="text-xl sm:text-2xl font-semibold text-rose-300 px-3 py-1 rounded-xl bg-lux-bg/80 border border-rose-300/60"
+                >
+                  —
+                </p>
+              </header>
+              <p
+                id="love-overall-text"
+                class="mt-4 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed"
+              >
+                After calculation, this section will offer a detailed reading of your romantic and
+                relational patterns through the lens of your Life Path.
+              </p>
+            </article>
+
+            <!-- Career -->
+            <article
+              id="tab-career"
+              class="tab-content border border-lux-border/70 rounded-2xl bg-lux-bg-alt/90 px-4 py-4 sm:px-5 sm:py-5"
+            >
+              <header class="flex items-center justify-between gap-3">
+                <div>
+                  <h2 class="text-sm sm:text-base font-semibold text-sky-300">
+                    Career & Vocation Profile
+                  </h2>
+                  <p class="text-[0.75rem] sm:text-xs text-slate-400">
+                    Work themes, ideal environments, and success patterns for your Life Path.
+                  </p>
+                </div>
+                <p
+                  id="career-lifePath-number"
+                  class="text-xl sm:text-2xl font-semibold text-sky-300 px-3 py-1 rounded-xl bg-lux-bg/80 border border-sky-300/60"
+                >
+                  —
+                </p>
+              </header>
+              <p
+                id="career-overall-text"
+                class="mt-4 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed"
+              >
+                After calculation, this section will describe how your Life Path expresses itself in
+                work, money, leadership, and long-term vocation.
+              </p>
+            </article>
+
+            <!-- Growth -->
+            <article
+              id="tab-growth"
+              class="tab-content border border-lux-border/70 rounded-2xl bg-lux-bg-alt/90 px-4 py-4 sm:px-5 sm:py-5"
+            >
+              <header class="flex items-center justify-between gap-3">
+                <div>
+                  <h2 class="text-sm sm:text-base font-semibold text-amber-300">
+                    Growth, Practice & Spiritual Path
+                  </h2>
+                  <p class="text-[0.75rem] sm:text-xs text-slate-400">
+                    Ongoing practices and mindset shifts to evolve with your Life Path number.
+                  </p>
+                </div>
+                <p
+                  id="growth-lifePath-number"
+                  class="text-xl sm:text-2xl font-semibold text-amber-300 px-3 py-1 rounded-xl bg-lux-bg/80 border border-amber-300/60"
+                >
+                  —
+                </p>
+              </header>
+              <p
+                id="growth-overall-text"
+                class="mt-4 text-sm sm:text-[0.95rem] text-slate-200 leading-relaxed"
+              >
+                After calculation, this section will outline specific practices, rituals, and perspectives
+                that help you work skillfully with your Life Path over time.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="relative z-10 mt-7 sm:mt-8 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
+          <p class="text-[0.7rem] sm:text-xs text-slate-500">
+            Built on the classic Pythagorean system with Master Numbers 11, 22, and 33 preserved.
+          </p>
+          <p class="text-[0.7rem] sm:text-xs text-slate-500">
+            All calculations run locally in your browser for privacy and instant feedback.
+          </p>
+          <p class="text-[0.7rem] sm:text-xs text-lux-gold-soft/60 text-center">
+            Developed by <span class="text-lux-gold-soft font-medium">dev Sagar</span> · Brand Developer
+          </p>
+        </footer>
+      </main>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
+
