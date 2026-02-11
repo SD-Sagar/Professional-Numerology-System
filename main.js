@@ -347,6 +347,62 @@
         33: "33 energy is soothed by sacred spaces, altars, or creative studios dedicated to healing and service. Gentle stones such as rose quartz, amethyst, or selenite can symbolize soft, steady compassion—especially when you pair them with firm personal boundaries.",
       };
 
+      const EXPRESSION_THEMES = {
+        1: ["Lead initiatives that require decisive starts", "Ship solo deliverables that showcase mastery", "Choose channels with clear ownership"],
+        2: ["Partner on mediation, support, and coordination", "Create harmony in teams and client relations", "Elevate collaboration over spotlight"],
+        3: ["Produce creative work in writing, design, speaking", "Set weekly output goals to keep momentum", "Use storytelling to energize audiences"],
+        4: ["Architect processes and scalable systems", "Improve reliability through routines and checklists", "Deliver predictable outcomes with structure"],
+        5: ["Evangelize change and adapt quickly", "Rotate tasks to learn by variety", "Channel freedom into constructive experiments"],
+        6: ["Curate quality and mentor others", "Build trust through care and accountability", "Shape environments that feel beautiful and humane"],
+        7: ["Research deeply and prototype quietly", "Publish insights with clear reasoning", "Protect focus for long stretches of analysis"],
+        8: ["Manage resources and negotiate outcomes", "Lead operations with metrics and integrity", "Scale efforts where impact is measurable"],
+        9: ["Champion causes and craft compassionate impact", "Use art or advocacy to mobilize people", "Close cycles with wisdom and service"],
+        11: ["Inspire with intuitive, visionary work", "Design experiences that uplift and clarify", "Translate subtle insight into usable guidance"],
+        22: ["Engineer large, practical solutions", "Blend vision with executable roadmaps", "Own delivery for complex, multi-team projects"],
+        33: ["Teach, heal, and support at scale", "Create gentle structures for growth", "Model compassion with firm boundaries"],
+      };
+      const SOUL_LONGINGS = {
+        1: ["Autonomy with clear goals", "Rooms that reward initiative", "Mastery as nourishment"],
+        2: ["Consistent closeness and safety", "Gentle partnership and listening", "Peaceful environments"],
+        3: ["Play, expression, and recognition", "Color, music, and creative time", "Lightness balanced with sincerity"],
+        4: ["Stability and dependable routines", "Well-organized spaces", "Tangible progress each week"],
+        5: ["Freedom, novelty, and movement", "Flexible schedules and travel", "Honest variety without chaos"],
+        6: ["Belonging, beauty, and responsibility", "Warm home and community care", "Fairness in give-and-take"],
+        7: ["Solitude, depth, and truth", "Quiet study and nature", "Integrity in inquiry"],
+        8: ["Respect, achievement, and fairness", "Clear roles and real impact", "Ethical use of power"],
+        9: ["Meaning, compassion, and closure", "Service that transforms emotion", "Rituals that honor endings"],
+        11: ["Inspiration, stillness, alignment", "Subtle beauty and gentle light", "Time for intuition"],
+        22: ["Legacy through useful systems", "Competent teams and durable tools", "Results that help many"],
+        33: ["Unconditional care with rest", "Loving boundaries and support", "Space to renew before serving"],
+      };
+      const PERSONALITY_STYLE = {
+        1: ["Direct, confident, decisive tone", "Dress and cues that signal leadership", "Pace conversations quickly"],
+        2: ["Warm, attentive, diplomatic tone", "Soft aesthetics and gentle timing", "Invite collaboration early"],
+        3: ["Lively, expressive, humorous tone", "Vivid colors and playful rhythm", "Use story to connect fast"],
+        4: ["Grounded, precise, dependable tone", "Minimal design and neat structure", "Slow, thorough delivery"],
+        5: ["Dynamic, flexible, curious tone", "Adaptive style and movement", "Encourage exploration"],
+        6: ["Elegant, caring, composed tone", "Refined visuals and hospitality", "Signal reliability with warmth"],
+        7: ["Thoughtful, reserved, discerning tone", "Quiet style and intellectual cues", "Ask strong questions"],
+        8: ["Executive, poised, strong tone", "Classic form and clear authority", "Lead with outcomes"],
+        9: ["Empathetic, inclusive, idealistic tone", "Artful presence and cause-minded cues", "Invite belonging"],
+        11: ["Luminous, sensitive, visionary tone", "Calm light and spaciousness", "Speak to possibilities"],
+        22: ["Capable, structured, big-picture tone", "Blueprint aesthetics and clarity", "Connect tasks to systems"],
+        33: ["Gentle, reassuring, wise tone", "Soft colors and supportive rhythm", "Model compassionate steadiness"],
+      };
+      const BIRTHDAY_GIFT = {
+        1: ["Start things others hesitate to begin", "Claim ownership of a clear deliverable", "Prototype quickly to learn"],
+        2: ["Harmonize groups and mediate", "Support leaders with grounded care", "Document agreements kindly"],
+        3: ["Create content that delights", "Publish small pieces regularly", "Host expressive sessions"],
+        4: ["Build structures and routines", "Improve reliability each week", "Organize tools and data"],
+        5: ["Facilitate change and outreach", "Pilot new ideas with feedback", "Travel or rotate contexts"],
+        6: ["Beautify spaces and serve", "Mentor and coordinate care", "Plan community rituals"],
+        7: ["Teach depth through research", "Curate study paths", "Share clear models and proofs"],
+        8: ["Run operations and lead", "Negotiate fair, tangible results", "Measure impact kindly"],
+        9: ["Offer compassion in action", "Create art with purpose", "Close chapters with dignity"],
+        11: ["Inspire and illuminate", "Hold space for insight", "Design elevating experiences"],
+        22: ["Build large useful projects", "Translate vision into blueprints", "Steward teams to completion"],
+        33: ["Teach and heal consistently", "Create gentle learning forums", "Serve while staying resourced"],
+      };
       function buildReportText(data) {
         const lines = [];
         lines.push("UNIVERSAL NUMEROLOGY ENGINE REPORT");
@@ -387,12 +443,8 @@
         lines.push(descriptions.expression[data.expression] || "");
         lines.push("");
         lines.push("  Strengths");
-        lines.push(
-          "  • " +
-            (descriptions.expression[data.expression] ||
-              "Expression describes your natural talents and capacities.")
-        );
-        lines.push("  • Expression " + data.expression + " thrives with consistent, focused practice.");
+        lines.push("  • Natural talent suite indicated by Expression " + data.expression + "; fast learning in chosen mediums.");
+        lines.push("  • Thrives with structured repetition and clear skill stacking.");
         lines.push("  Challenges");
         lines.push("  • Over‑identifying with one talent and neglecting supporting skills.");
         lines.push("  • Inconsistency between talent and daily practice.");
@@ -407,11 +459,8 @@
         lines.push(descriptions.soul[data.soul] || "");
         lines.push("");
         lines.push("  Strengths");
-        lines.push(
-          "  • " +
-            (descriptions.soul[data.soul] || "Soul Urge reveals what truly nourishes you.")
-        );
-        lines.push("  • Clarifies authentic desires beneath roles and expectations.");
+        lines.push("  • Deep inner compass; clear sense of what genuinely nourishes you.");
+        lines.push("  • Capacity to sustain motivation when aligned with values.");
         lines.push("  Challenges");
         lines.push("  • Absorbing others’ emotions and forgetting your own needs.");
         lines.push("  • Self‑silencing to keep peace.");
@@ -430,12 +479,8 @@
         lines.push(descriptions.personality[data.personality] || "");
         lines.push("");
         lines.push("  Strengths");
-        lines.push(
-          "  • " +
-            (descriptions.personality[data.personality] ||
-              "Personality reflects how you are first experienced.")
-        );
-        lines.push("  • Helps build trust quickly when aligned with inner truth.");
+        lines.push("  • Clear first impression; ability to set tone and build trust.");
+        lines.push("  • Adaptive presentation when anchored to inner truth.");
         lines.push("  Challenges");
         lines.push("  • Masking inner needs behind a rigid persona.");
         lines.push("  • Style–substance mismatch causing misreads.");
@@ -450,12 +495,8 @@
         lines.push(descriptions.birthday[data.birthday] || "");
         lines.push("");
         lines.push("  Strengths");
-        lines.push(
-          "  • " +
-            (descriptions.birthday[data.birthday] ||
-              "Birthday indicates a focused gift or style.")
-        );
-        lines.push("  • Offers a reliable talent to apply repeatedly.");
+        lines.push("  • Focused gift; dependable way of adding value in daily life.");
+        lines.push("  • Rapid traction when applied weekly in real contexts.");
         lines.push("  Challenges");
         lines.push("  • Over‑relying on a single gift while neglecting broader development.");
         lines.push("  • Applying the gift in mismatched contexts.");
@@ -637,10 +678,7 @@
           const lpPractice = document.createElement("div");
           lpPractice.innerHTML =
             "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Practical Guidance</h3>" +
-            "<p>" +
-            ((remedySet && remedySet.overall) ||
-              "Establish simple routines that align daily choices with your Life Path themes. Periodically review goals and habits to ensure they serve the trajectory indicated by your core number.") +
-            "</p>";
+            "<p>Establish simple routines that align daily choices with your Life Path themes. Periodically review goals and habits to ensure they serve the trajectory indicated by your core number.</p>";
           extra.appendChild(lpIntegration);
           extra.appendChild(lpPractice);
         }
@@ -731,16 +769,12 @@
             "<p>No specific remedy is available for this Life Path value with the current input.</p>";
         }
         if (loveEl) {
-          if (remedySet && remedySet.love) {
-            loveEl.textContent = remedySet.love;
-          } else {
-            loveEl.textContent =
-              "In love and close relationships, your Life Path " +
-              results.lifePath +
-              " sets the tone for how you move through partnership, while your Soul Urge " +
-              results.soul +
-              " reveals what you privately need to feel emotionally safe and fulfilled. Reading both sections together in this report will give you a nuanced picture of how you give and receive love, what attracts you, and which dynamics tend to repeat for you.";
-          }
+          loveEl.textContent =
+            "In love and close relationships, your Life Path " +
+            results.lifePath +
+            " sets the tone for how you move through partnership, while your Soul Urge " +
+            results.soul +
+            " reveals what you privately need to feel emotionally safe and fulfilled. Reading both sections together in this report will give you a nuanced picture of how you give and receive love, what attracts you, and which dynamics tend to repeat for you.";
         }
         const loveArticle = document.getElementById("tab-love");
         if (loveArticle) {
@@ -777,25 +811,18 @@
           const lovePractice = document.createElement("div");
           lovePractice.innerHTML =
             "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Shared Practices</h3>" +
-            "<p>" +
-            ((remedySet && remedySet.growth) ||
-              "Choose a simple weekly ritual—walks, check‑ins, creative time—that nourishes both partners and keeps the relationship aligned with your core numbers.") +
-            "</p>";
+            "<p>Choose a simple weekly ritual—walks, check‑ins, creative time—that nourishes both partners and keeps the relationship aligned with your core numbers.</p>";
           extra.appendChild(loveComm);
           extra.appendChild(loveBounds);
           extra.appendChild(lovePractice);
         }
         if (careerEl) {
-          if (remedySet && remedySet.career) {
-            careerEl.textContent = remedySet.career;
-          } else {
-            careerEl.textContent =
-              "In career and vocation, your Life Path " +
-              results.lifePath +
-              " describes the kind of journey and lessons you meet through work, and your Expression " +
-              results.expression +
-              " outlines the concrete talents and capacities you naturally bring to any role. When you align daily tasks with your Expression and long-term direction with your Life Path, you create a trajectory where effort feels meaningful instead of purely transactional.";
-          }
+          careerEl.textContent =
+            "In career and vocation, your Life Path " +
+            results.lifePath +
+            " describes the kind of journey and lessons you meet through work, and your Expression " +
+            results.expression +
+            " outlines the concrete talents and capacities you naturally bring to any role. When you align daily tasks with your Expression and long-term direction with your Life Path, you create a trajectory where effort feels meaningful instead of purely transactional.";
         }
         const careerArticle = document.getElementById("tab-career");
         if (careerArticle) {
@@ -848,18 +875,14 @@
           extra.appendChild(carPlan);
         }
         if (growthEl) {
-          if (remedySet && remedySet.growth) {
-            growthEl.textContent = remedySet.growth;
-          } else {
-            growthEl.textContent =
-              "For long-term growth, your Life Path " +
-              results.lifePath +
-              " shows the curriculum your soul signed up for, while your Soul Urge " +
-              results.soul +
-              " and Personality " +
-              results.personality +
-              " highlight your inner motivations and outer style. Using these together, you can track which experiences stretch you in a healthy way, which patterns you are ready to release, and which practices in this report will keep you evolving instead of repeating the same lessons.";
-          }
+          growthEl.textContent =
+            "For long-term growth, your Life Path " +
+            results.lifePath +
+            " shows the curriculum your soul signed up for, while your Soul Urge " +
+            results.soul +
+            " and Personality " +
+            results.personality +
+            " highlight your inner motivations and outer style. Using these together, you can track which experiences stretch you in a healthy way, which patterns you are ready to release, and which practices in this report will keep you evolving instead of repeating the same lessons.";
         }
         const growthArticle = document.getElementById("tab-growth");
         if (growthArticle) {
@@ -874,10 +897,7 @@
           const grPractices = document.createElement("div");
           grPractices.innerHTML =
             "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-amber-300 tracking-wide uppercase mb-1\">Core Practices</h3>" +
-            "<p>" +
-            ((remedySet && remedySet.growth) ||
-              "Pick two stable practices—one reflective and one embodied—and keep them consistent to regulate change and deepen insight.") +
-            "</p>";
+            "<p>Pick two stable practices—one reflective and one embodied—and keep them consistent to regulate change and deepen insight.</p>";
           const grCurriculum = document.createElement("div");
           grCurriculum.innerHTML =
             "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Curriculum Highlights</h3>" +
@@ -919,19 +939,30 @@
             extra.innerHTML = "";
           }
           const exThemes = document.createElement("div");
-          exThemes.innerHTML =
-            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-blue tracking-wide uppercase mb-1\">Key Themes</h3>" +
-            "<p>" +
-            (descriptions.expression[results.expression] || "") +
-            "</p>";
+          {
+            const items = EXPRESSION_THEMES[results.expression] || [
+              "Choose channels that fit your strengths",
+              "Practice weekly to compound skill",
+              "Align effort with long‑term direction",
+            ];
+            exThemes.innerHTML =
+              "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-blue tracking-wide uppercase mb-1\">Key Themes</h3>" +
+              "<ul class=\"list-disc list-inside space-y-1\">" +
+              items.map((x) => "<li>" + x + "</li>").join("") +
+              "</ul>";
+          }
           const exIntegration = document.createElement("div");
           exIntegration.innerHTML =
-            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Integration With Life Path</h3>" +
-            "<p>Align daily tasks with Life Path " +
-            results.lifePath +
-            " while using Expression " +
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Integration Path</h3>" +
+            "<p>Translate Expression " +
             results.expression +
-            " as your toolkit. This pairing clarifies what work feels natural versus draining.</p>";
+            " talents into repeatable outputs by choosing channels that suit your strengths (writing, design, analysis, mentoring). Let Life Path " +
+            results.lifePath +
+            " define direction and timing, Soul Urge " +
+            results.soul +
+            " set quality standards, and Personality " +
+            results.personality +
+            " shape delivery so your work lands cleanly.</p>";
           const exPractical = document.createElement("div");
           exPractical.innerHTML =
             "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Practical Steps</h3>" +
@@ -940,12 +971,10 @@
           exChecklist.innerHTML =
             "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-blue tracking-wide uppercase mb-1\">Strengths</h3>" +
             "<ul class=\"list-disc list-inside space-y-1\">" +
-            "<li>" +
-            (descriptions.expression[results.expression] || "Your Expression number describes natural talents and capacities.") +
-            "</li>" +
-            "<li>Expression " +
+            "<li>Natural talent suite indicated by Expression " +
             results.expression +
-            " highlights skills that feel intuitive and energizing when practiced consistently.</li>" +
+            " with fast learning in chosen mediums.</li>" +
+            "<li>Thrives with structured repetition and clear skill stacking.</li>" +
             "</ul>" +
             "<h3 class=\"mt-3 text-[0.8rem] sm:text-sm font-semibold text-rose-300 tracking-wide uppercase mb-1\">Challenges</h3>" +
             "<ul class=\"list-disc list-inside space-y-1\">" +
@@ -985,19 +1014,30 @@
             extra.innerHTML = "";
           }
           const soThemes = document.createElement("div");
-          soThemes.innerHTML =
-            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Core Longings</h3>" +
-            "<p>" +
-            (descriptions.soul[results.soul] || "") +
-            "</p>";
+          {
+            const items = SOUL_LONGINGS[results.soul] || [
+              "Name what truly nourishes you",
+              "Maintain boundaries and supportive spaces",
+              "Use honest communication",
+            ];
+            soThemes.innerHTML =
+              "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Core Longings</h3>" +
+              "<ul class=\"list-disc list-inside space-y-1\">" +
+              items.map((x) => "<li>" + x + "</li>").join("") +
+              "</ul>";
+          }
           const soIntegration = document.createElement("div");
           soIntegration.innerHTML =
-            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Integration With Personality</h3>" +
-            "<p>Notice where Personality " +
-            results.personality +
-            " aligns or differs from Soul Urge " +
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Inner–Outer Alignment</h3>" +
+            "<p>Design agreements and environments that feed Soul Urge " +
             results.soul +
-            ". Support environments that let your private needs be honored without forcing a public persona.</p>";
+            " (space, honesty, beauty). Use Personality " +
+            results.personality +
+            " to broadcast clear boundaries, Expression " +
+            results.expression +
+            " to negotiate how support looks in action, and Life Path " +
+            results.lifePath +
+            " to keep choices pointed toward true growth.</p>";
           const soPractice = document.createElement("div");
           soPractice.innerHTML =
             "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-amber-300 tracking-wide uppercase mb-1\">Emotional Practices</h3>" +
@@ -1006,12 +1046,8 @@
           soChecklist.innerHTML =
             "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Strengths</h3>" +
             "<ul class=\"list-disc list-inside space-y-1\">" +
-            "<li>" +
-            (descriptions.soul[results.soul] || "Your Soul Urge reveals what truly nourishes you.") +
-            "</li>" +
-            "<li>Soul Urge " +
-            results.soul +
-            " clarifies authentic desires beneath roles and expectations.</li>" +
+            "<li>Deep inner compass; clear sense of what genuinely nourishes you.</li>" +
+            "<li>Capacity to sustain motivation when aligned with values.</li>" +
             "</ul>" +
             "<h3 class=\"mt-3 text-[0.8rem] sm:text-sm font-semibold text-rose-300 tracking-wide uppercase mb-1\">Challenges</h3>" +
             "<ul class=\"list-disc list-inside space-y-1\">" +
@@ -1051,19 +1087,30 @@
             extra.innerHTML = "";
           }
           const peThemes = document.createElement("div");
-          peThemes.innerHTML =
-            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-fuchsia-300 tracking-wide uppercase mb-1\">Public Style</h3>" +
-            "<p>" +
-            (descriptions.personality[results.personality] || "") +
-            "</p>";
+          {
+            const items = PERSONALITY_STYLE[results.personality] || [
+              "Clarify tone for first impressions",
+              "Choose fitting social contexts",
+              "Bridge perception and substance",
+            ];
+            peThemes.innerHTML =
+              "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-fuchsia-300 tracking-wide uppercase mb-1\">Public Style</h3>" +
+              "<ul class=\"list-disc list-inside space-y-1\">" +
+              items.map((x) => "<li>" + x + "</li>").join("") +
+              "</ul>";
+          }
           const peIntegration = document.createElement("div");
           peIntegration.innerHTML =
-            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Integration With Soul Urge</h3>" +
-            "<p>Balance how you appear with what you need. Let Personality " +
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Presenting Authentically</h3>" +
+            "<p>Tune tone, language, and aesthetics by Personality " +
             results.personality +
-            " serve Soul Urge " +
+            " so they mirror Soul Urge " +
             results.soul +
-            " so first impressions reflect real authenticity.</p>";
+            " needs. Choose roles that leverage Expression " +
+            results.expression +
+            " and place yourself in contexts paced by Life Path " +
+            results.lifePath +
+            " so people experience your true substance, not a mask.</p>";
           const pePractice = document.createElement("div");
           pePractice.innerHTML =
             "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-sky-300 tracking-wide uppercase mb-1\">Practical Adjustments</h3>" +
@@ -1072,12 +1119,8 @@
           peChecklist.innerHTML =
             "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-fuchsia-300 tracking-wide uppercase mb-1\">Strengths</h3>" +
             "<ul class=\"list-disc list-inside space-y-1\">" +
-            "<li>" +
-            (descriptions.personality[results.personality] || "Your Personality reflects how you are first experienced.") +
-            "</li>" +
-            "<li>Personality " +
-            results.personality +
-            " can make trust‑building faster when aligned with inner truth.</li>" +
+            "<li>Clear first impression; ability to set tone and build trust.</li>" +
+            "<li>Adaptive presentation when anchored to inner truth.</li>" +
             "</ul>" +
             "<h3 class=\"mt-3 text-[0.8rem] sm:text-sm font-semibold text-rose-300 tracking-wide uppercase mb-1\">Challenges</h3>" +
             "<ul class=\"list-disc list-inside space-y-1\">" +
@@ -1113,17 +1156,32 @@
             extra.innerHTML = "";
           }
           const bdThemes = document.createElement("div");
-          bdThemes.innerHTML =
-            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-sky-300 tracking-wide uppercase mb-1\">Gift Focus</h3>" +
-            "<p>" +
-            (descriptions.birthday[results.birthday] || "") +
-            "</p>";
+          {
+            const items = BIRTHDAY_GIFT[results.birthday] || [
+              "Identify the weekly application of your gift",
+              "Choose contexts where it helps others",
+              "Pair with practiced skill for reliability",
+            ];
+            bdThemes.innerHTML =
+              "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-sky-300 tracking-wide uppercase mb-1\">Gift Focus</h3>" +
+              "<ul class=\"list-disc list-inside space-y-1\">" +
+              items.map((x) => "<li>" + x + "</li>").join("") +
+              "</ul>";
+          }
           const bdIntegration = document.createElement("div");
           bdIntegration.innerHTML =
-            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Integration With Expression</h3>" +
-            "<p>Use your Birthday gift to amplify Expression " +
+            "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-lux-gold-soft tracking-wide uppercase mb-1\">Applying Your Gift</h3>" +
+            "<p>Apply Birthday " +
+            results.birthday +
+            " in real settings each week (teaching, building, caring, organizing). Pair it with Expression " +
             results.expression +
-            ". Pair natural talents with practiced skills to create reliable outcomes.</p>";
+            " to turn talent into reliable skill, pace efforts with Life Path " +
+            results.lifePath +
+            ", and keep emotional sustainability by honoring Soul Urge " +
+            results.soul +
+            ". Let Personality " +
+            results.personality +
+            " guide how you showcase the gift.</p>";
           const bdPractice = document.createElement("div");
           bdPractice.innerHTML =
             "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-emerald-300 tracking-wide uppercase mb-1\">Application Ideas</h3>" +
@@ -1132,12 +1190,8 @@
           bdChecklist.innerHTML =
             "<h3 class=\"text-[0.8rem] sm:text-sm font-semibold text-sky-300 tracking-wide uppercase mb-1\">Strengths</h3>" +
             "<ul class=\"list-disc list-inside space-y-1\">" +
-            "<li>" +
-            (descriptions.birthday[results.birthday] || "Your Birthday indicates a focused gift or style.") +
-            "</li>" +
-            "<li>Birthday " +
-            results.birthday +
-            " offers a reliable talent you can apply repeatedly.</li>" +
+            "<li>Focused gift; dependable way of adding value in daily life.</li>" +
+            "<li>Rapid traction when applied weekly in real contexts.</li>" +
             "</ul>" +
             "<h3 class=\"mt-3 text-[0.8rem] sm:text-sm font-semibold text-rose-300 tracking-wide uppercase mb-1\">Challenges</h3>" +
             "<ul class=\"list-disc list-inside space-y-1\">" +
